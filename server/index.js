@@ -9,6 +9,13 @@ const dataFile = path.join(__dirname, "data.json");
 //support POSTing from data with encoded URL
 app.use(express.urlencoded({extended:true}));
 
+//CORS - allow any requests-not secure
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", '*');
+//     next();
+// });
+
+
 app.get('/poll', async (req, res) => {
     let data = JSON.parse(await fs.readFile(dataFile, "utf-8"));
     const totalVotes = Object.values(data).reduce((total, n) => total += n, 0);
@@ -34,7 +41,7 @@ app.post('/poll', async (req, res) => {
     await fs.writeFile(dataFile, JSON.stringify(data));
 
     //add confirmation to the user that vote was successful
-    
+
     res.end()
 })
 

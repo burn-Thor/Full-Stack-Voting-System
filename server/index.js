@@ -25,4 +25,17 @@ app.get('/poll', async (req, res) => {
     res.json(data);
 })
 
+app.post('/poll', async (req, res) => {
+    const data = JSON.parse(await fs.readFile(dataFile, "utf-8"));
+
+    //add validation below, currently trusting the user to provide the right value 
+    data[req.body.add]++
+
+    await fs.writeFile(dataFile, JSON.stringify(data));
+
+    //add confirmation to the user that vote was successful
+    
+    res.end()
+})
+
 app.listen(3000, () => console.log("Server is running..."));
